@@ -13,30 +13,24 @@ import dev.syorito_hatsuki.onlyone.databinding.ActivityMainBinding
 import dev.syorito_hatsuki.onlyone.databinding.ItemUserBinding
 import java.text.FieldPosition
 
-class UserListAdapter(private val userList: List<User>) : RecyclerView.Adapter<UserListAdapter.UserViewHolder>() {
+typealias OnItemClickListener = (Int) -> Unit
 
-    private lateinit var mListener: OnItemClickListener
+class UserListAdapter(private val userList: List<User>) :
+    RecyclerView.Adapter<UserListAdapter.UserViewHolder>() {
 
-    interface OnItemClickListener {
-        fun onItemClick(position: Int)
-    }
+    lateinit var onItemClickListener: OnItemClickListener
 
-    fun setOnItemClickListener(listener: OnItemClickListener){
-        mListener = listener
-    }
-
-    class UserViewHolder(item: View,listener: OnItemClickListener) : RecyclerView.ViewHolder(item) {
+    class UserViewHolder(item: View, listener: OnItemClickListener) :
+        RecyclerView.ViewHolder(item) {
         val binding = ItemUserBinding.bind(item)
 
         init {
             item.setOnClickListener {
-                listener.onItemClick(adapterPosition)
+                listener(adapterPosition)
             }
         }
 
         fun bind(id: Int, avatar: String, username: String) {
-            //item.userId.text = id.toString()
-
             binding.Image.load("https://cdn.only-one.su/public/clients/$id/$avatar") {
                 error(R.drawable.no_avatar)
                 transformations(CircleCropTransformation())
@@ -46,20 +40,9 @@ class UserListAdapter(private val userList: List<User>) : RecyclerView.Adapter<U
 
     }
 
-   /* override fun onCreateViewHolder(
-        viewGroup: ViewGroup,
-        viewType: Int
-    ): UserViewHolder = UserViewHolder(
-        ItemUserBinding.inflate(
-            LayoutInflater.from(viewGroup.context),
-            viewGroup,
-            false
-        )
-    )*/
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_user,parent,false)
-        return UserViewHolder(view,mListener)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_user, parent, false)
+        return UserViewHolder(view, onItemClickListener)
     }
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
@@ -68,6 +51,5 @@ class UserListAdapter(private val userList: List<User>) : RecyclerView.Adapter<U
     }
 
     override fun getItemCount(): Int = userList.size
-
 
 }

@@ -16,7 +16,7 @@ import dev.syorito_hatsuki.onlyone.ui.activity.main.fragment.main.adapter.UserLi
 import dev.syorito_hatsuki.onlyone.ui.activity.main.fragment.main.viewmodel.MainViewModel
 import kotlinx.coroutines.flow.collect
 
-class MainFragment : Fragment(), LifecycleObserver  {
+class MainFragment : Fragment(), LifecycleObserver {
 
     private val viewModel: MainViewModel by viewModels()
     private lateinit var viewBinding: FragmentMainBinding
@@ -30,24 +30,22 @@ class MainFragment : Fragment(), LifecycleObserver  {
     }
 
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         lifecycleScope.launchWhenCreated {
             viewModel.getUsersList().collect {
+                viewBinding.recycler.layoutManager = GridLayoutManager(requireContext(), 3)
+                val adapter = UserListAdapter(it.users)
 
-                    viewBinding.recycler.layoutManager = GridLayoutManager(requireContext(),3)
-                    val adapter = UserListAdapter(it.users)
+                viewBinding.recycler.adapter = adapter
 
-                    viewBinding.recycler.adapter = adapter
-
-                adapter.setOnItemClickListener(object : UserListAdapter.OnItemClickListener{
-                    override fun onItemClick(position: Int) {
-                        Toast.makeText(requireContext(),"hello ${it.users[position].username}",Toast.LENGTH_SHORT).show()
-                    }
-                })
-
-
+                adapter.onItemClickListener = { position ->
+                    Toast.makeText(
+                        requireContext(),
+                        "hello ${it.users[position].username}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
     }
