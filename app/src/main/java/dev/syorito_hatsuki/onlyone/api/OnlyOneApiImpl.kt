@@ -19,15 +19,10 @@ class OnlyOneApiImpl(private val httpClient: HttpClient) : OnlyOneApi {
         }
     }
     override suspend fun getUser(userID:Int): GetUser {
-
-        val data:JsonObject = httpClient.get {
+        return httpClient.get {
             url {
                 encodedPath = "user/get/${userID}"
             }
         }
-        println(data)
-        return Json.decodeFromJsonElement(data)
-
-        //return User("dd","",111,"","","",11,false,10,"","","","")
     }
 }

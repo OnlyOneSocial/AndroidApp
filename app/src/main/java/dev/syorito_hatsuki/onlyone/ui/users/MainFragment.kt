@@ -14,12 +14,12 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import dev.syorito_hatsuki.onlyone.R
 import dev.syorito_hatsuki.onlyone.databinding.FragmentHomeBinding
+import dev.syorito_hatsuki.onlyone.ui.MainViewModel
 import kotlinx.coroutines.flow.collect
 
 class MainFragment : Fragment()  {
 
     private val viewModel: MainViewModel by viewModels()
-    //private lateinit var viewBinding: FragmentHomeBinding
     private var _binding: FragmentHomeBinding? = null
 
     private val binding get() = _binding!!
@@ -33,7 +33,6 @@ class MainFragment : Fragment()  {
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         lifecycleScope.launchWhenCreated {
@@ -44,14 +43,6 @@ class MainFragment : Fragment()  {
                 binding.recycler.adapter = adapter
 
                 adapter.onItemClickListener = { position ->
-            /*        Toast.makeText(
-                        requireContext(),
-                        "hello ${it.users[position].id}",
-                        Toast.LENGTH_SHORT
-                    ).show()*/
-
-                   // val amountTv: EditText = requireView().findViewById(R.id.blankFragment)
-
                     val action = MainFragmentDirections.goToUserPage(it.users[position].id)
                     view.findNavController().navigate(action)
                 }

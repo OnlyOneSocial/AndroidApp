@@ -17,9 +17,9 @@ import coil.transform.CircleCropTransformation
 import dev.syorito_hatsuki.onlyone.R
 import dev.syorito_hatsuki.onlyone.databinding.FragmentBlankBinding
 import dev.syorito_hatsuki.onlyone.databinding.FragmentDashboardBinding
+import dev.syorito_hatsuki.onlyone.ui.MainViewModel
 import dev.syorito_hatsuki.onlyone.ui.MyProfile.SlideshowViewModel
 import dev.syorito_hatsuki.onlyone.ui.users.MainFragmentDirections
-import dev.syorito_hatsuki.onlyone.ui.users.MainViewModel
 import dev.syorito_hatsuki.onlyone.ui.users.UserListAdapter
 import kotlinx.coroutines.flow.collect
 
@@ -35,7 +35,7 @@ private const val ARG_PARAM1 = "UserID"
 class BlankFragment : Fragment(), LifecycleObserver {
     // TODO: Rename and change types of parameters
     private var param1: Int? = null
-    private val viewModel: UserPage by viewModels()
+    private val viewModel: MainViewModel by viewModels()
     private var _binding: FragmentBlankBinding? = null
 
     private val binding get() = _binding!!
@@ -63,6 +63,7 @@ class BlankFragment : Fragment(), LifecycleObserver {
         slideshowViewModel.text.observe(viewLifecycleOwner) {
             param1?.let { it1 ->
                 textView.text = it.toString()
+                viewModel.updateActionBarTitle(it.toString())
             }
         }
 
@@ -78,8 +79,12 @@ class BlankFragment : Fragment(), LifecycleObserver {
                         error(R.drawable.no_avatar)
                         transformations(CircleCropTransformation())
                     }
+                    viewModel.updateActionBarTitle(it.user.username)
+
+
                     binding.Username.text = it.user.username
                     binding.textView.text = it.user.bio
+
                 }
             }
         }
