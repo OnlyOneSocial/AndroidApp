@@ -18,7 +18,7 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="n">
         <activity
-            android:name="dev.syorito_hatsuki.onlyone.ui.activity.main.MainActivity"
+            android:name="dev.syorito_hatsuki.onlyone.ui.MainActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

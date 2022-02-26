@@ -8,7 +8,7 @@ data class User(
     val avatar: String,
     val bio: String,
     @SerialName("birthday_date")
-    val birthdayDate: Int,
+    val birthdayDate: Long,
     val city: String,
     val country: String,
     val gender: String,

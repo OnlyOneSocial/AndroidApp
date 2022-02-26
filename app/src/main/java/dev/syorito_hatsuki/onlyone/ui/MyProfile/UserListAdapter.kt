@@ -1,4 +1,4 @@
-package dev.syorito_hatsuki.onlyone.ui.activity.main.fragment.main.adapter
+package dev.syorito_hatsuki.onlyone.ui.MyProfile
 
 import android.view.LayoutInflater
 import android.view.View
