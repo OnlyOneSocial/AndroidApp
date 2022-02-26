@@ -16,7 +16,7 @@ import dev.syorito_hatsuki.onlyone.R
 import dev.syorito_hatsuki.onlyone.databinding.FragmentHomeBinding
 import kotlinx.coroutines.flow.collect
 
-class MainFragment : Fragment(),LifecycleObserver  {
+class MainFragment : Fragment()  {
 
     private val viewModel: MainViewModel by viewModels()
     //private lateinit var viewBinding: FragmentHomeBinding

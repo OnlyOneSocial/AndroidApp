@@ -1,21 +1,8 @@
-buildscript {
-    repositories {
-        google()
-    }
-    dependencies {
-        val nav_version = "2.4.1"
-        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version")
-
-    }
-
-
-}
-apply(plugin = "androidx.navigation.safeargs")
-
 plugins {
     id ("com.android.application")
     id ("org.jetbrains.kotlin.android")
     id ("org.jetbrains.kotlin.plugin.serialization") version "1.6.10"
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 
@@ -65,13 +52,9 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
     implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
 
-
-
-
     implementation("io.ktor:ktor-client-core:1.6.7")
     implementation("io.ktor:ktor-client-android:1.6.7")
     implementation("io.ktor:ktor-client-serialization:1.6.7")
-
 
     implementation("io.insert-koin:koin-android:3.1.5")
     implementation("io.insert-koin:koin-ktor:3.1.5")
