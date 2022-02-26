@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavHostController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -16,6 +17,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dev.syorito_hatsuki.onlyone.R
 import dev.syorito_hatsuki.onlyone.databinding.ActivityMainBinding
+import dev.syorito_hatsuki.onlyone.ui.fragments.BlankFragmentDirections
 
 class MainActivity : AppCompatActivity() {
 
@@ -64,19 +66,27 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         super.onOptionsItemSelected(item)
         //Todo Make back func
-        /*if(item.itemId == android.R.id.home){
-            finish()
-        }*/
+        if(item.itemId == android.R.id.home){
+            val action = BlankFragmentDirections.goHome()
+
+
+            //findNavController().navigate(action)
+            //binding.findNavController().navigate(action)
+            val navController = findNavController(R.id.nav_host_fragment_activity_main)
+            navController.navigate(action)
+        }
 
         return true
     }
 
-    /* fun OnCreateOptionsMenu(menu: Menu){
-        super.onCreateOptionsMenu(menu)
+     /*override fun OnCreateOptionsMenu(menu: Menu){
+        super.onCreateOptionsMenu(menu)*/
 
-        menuInflater.inflate(R.menu.main_menu,menu)
+
+//         override fun onClick()
+        //menuInflater.inflate(R.menu.main_menu,menu)
 
         //return true
 
-    }*/
+
 }

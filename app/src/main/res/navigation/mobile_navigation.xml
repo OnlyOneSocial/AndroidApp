@@ -34,5 +34,8 @@
         <argument
             android:name="UserID"
             app:argType="integer" />
+        <action
+            android:id="@+id/goHome"
+            app:destination="@id/navigation_home" />
     </fragment>
 </navigation>

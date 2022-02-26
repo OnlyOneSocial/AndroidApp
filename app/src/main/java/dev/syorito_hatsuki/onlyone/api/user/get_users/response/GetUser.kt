@@ -16,7 +16,7 @@ data class FriendStatus(
 @Serializable
 data class Friends(
     val count: Int,
-    val list: List<UserPage>
+    val list: List<UserPage>? = null
 )
 @Serializable
 data class UserPage(
