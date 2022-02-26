@@ -12,6 +12,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import coil.load
+import coil.transform.CircleCropTransformation
 import dev.syorito_hatsuki.onlyone.R
 import dev.syorito_hatsuki.onlyone.databinding.FragmentBlankBinding
 import dev.syorito_hatsuki.onlyone.databinding.FragmentDashboardBinding
@@ -57,7 +59,7 @@ class BlankFragment : Fragment(), LifecycleObserver {
         _binding = FragmentBlankBinding.inflate(inflater, container, false)
 
 
-        val textView: TextView = binding.UserID
+        val textView: TextView = binding.Username
         slideshowViewModel.text.observe(viewLifecycleOwner) {
             param1?.let { it1 ->
                 textView.text = it.toString()
@@ -72,7 +74,12 @@ class BlankFragment : Fragment(), LifecycleObserver {
         lifecycleScope.launchWhenCreated {
             param1?.let { it ->
                 viewModel.getUserInfo(it).collect {
-                    binding.UserID.text = it.toString()
+                    binding.UserImage.load("https://cdn.only-one.su/public/clients/${it.user.id}/${it.user.avatar}") {
+                        error(R.drawable.no_avatar)
+                        transformations(CircleCropTransformation())
+                    }
+                    binding.Username.text = it.user.username
+                    binding.textView.text = it.user.bio
                 }
             }
         }
