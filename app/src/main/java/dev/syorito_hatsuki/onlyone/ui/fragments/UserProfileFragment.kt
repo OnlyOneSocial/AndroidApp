@@ -16,6 +16,7 @@ import coil.load
 import coil.transform.CircleCropTransformation
 import dev.syorito_hatsuki.onlyone.R
 import dev.syorito_hatsuki.onlyone.databinding.FragmentBlankBinding
+import dev.syorito_hatsuki.onlyone.ui.MainActivity
 import dev.syorito_hatsuki.onlyone.ui.MainViewModel
 import kotlinx.coroutines.flow.collect
 
@@ -68,7 +69,7 @@ class BlankFragment : Fragment(), LifecycleObserver {
 
 
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "ResourceType")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -81,7 +82,8 @@ class BlankFragment : Fragment(), LifecycleObserver {
                         error(R.drawable.no_avatar)
                         transformations(CircleCropTransformation())
                     }
-                    viewModel.updateActionBarTitle(it.user.username)
+
+                    (activity as MainActivity).setTitle(it.user.username)
 
                     when(val num = System.currentTimeMillis()/1000 -it.user.online){
                         in 0..60*3 -> binding.Online.text = "Онлайн"
