@@ -3,6 +3,7 @@ package dev.syorito_hatsuki.onlyone.ui.fragments
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -11,6 +12,7 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.GridLayoutManager
 import coil.load
 import coil.transform.CircleCropTransformation
@@ -81,10 +83,8 @@ class BlankFragment : Fragment(), LifecycleObserver {
                     }
                     viewModel.updateActionBarTitle(it.user.username)
 
-
                     binding.Username.text = it.user.username
                     binding.textView.text = it.user.bio
-
                 }
             }
         }

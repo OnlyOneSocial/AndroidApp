@@ -21,7 +21,7 @@ class MainViewModel : ViewModel() {
     }
 
     fun getUserInfo(userid: Int) = flow {
-        val user = dev.syorito_hatsuki.onlyone.ui.fragments.onlyOneApi.getUser(userid)
+        val user = onlyOneApi.getUser(userid)
         emit(user)
     }
 
