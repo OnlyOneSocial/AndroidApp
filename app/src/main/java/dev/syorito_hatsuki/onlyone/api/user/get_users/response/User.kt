@@ -14,7 +14,7 @@ data class User(
     val gender: String,
     val id: Int,
     val me: Boolean,
-    val online: Int,
+    val online: Long,
     val sendto: String,
     val status: String,
     val text: String,

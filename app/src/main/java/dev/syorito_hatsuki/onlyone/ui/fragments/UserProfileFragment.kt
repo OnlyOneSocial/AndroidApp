@@ -1,28 +1,22 @@
 package dev.syorito_hatsuki.onlyone.ui.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.text.format.DateUtils
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
-import androidx.navigation.ui.NavigationUI
-import androidx.recyclerview.widget.GridLayoutManager
 import coil.load
 import coil.transform.CircleCropTransformation
 import dev.syorito_hatsuki.onlyone.R
 import dev.syorito_hatsuki.onlyone.databinding.FragmentBlankBinding
-import dev.syorito_hatsuki.onlyone.databinding.FragmentDashboardBinding
 import dev.syorito_hatsuki.onlyone.ui.MainViewModel
-import dev.syorito_hatsuki.onlyone.ui.MyProfile.SlideshowViewModel
-import dev.syorito_hatsuki.onlyone.ui.users.MainFragmentDirections
-import dev.syorito_hatsuki.onlyone.ui.users.UserListAdapter
 import kotlinx.coroutines.flow.collect
 
 // TODO: Rename parameter arguments, choose names that match
@@ -72,8 +66,14 @@ class BlankFragment : Fragment(), LifecycleObserver {
         return binding.root
     }
 
+
+
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+
         lifecycleScope.launchWhenCreated {
             param1?.let { it ->
                 viewModel.getUserInfo(it).collect {
@@ -83,8 +83,18 @@ class BlankFragment : Fragment(), LifecycleObserver {
                     }
                     viewModel.updateActionBarTitle(it.user.username)
 
+                    when(val num = System.currentTimeMillis()/1000 -it.user.online){
+                        in 0..60*3 -> binding.Online.text = "Онлайн"
+                        in 60*3..60*60 -> binding.Online.text = "${num/60} минут назад"
+                        in 60*60..60*60*24 -> binding.Online.text = "${num/60/60} час назад"
+                        in 60*60*24..60*60*24*31 -> binding.Online.text = "${num/60/60/24} день назад"
+                        else -> {
+                            binding.Online.text =  DateUtils.formatDateTime(context, it.user.online*1000, DateUtils.FORMAT_SHOW_DATE );
+                        }
+                    }
+
                     binding.Username.text = it.user.username
-                    binding.textView.text = it.user.bio
+                    binding.Bio.text = it.user.bio
                 }
             }
         }
