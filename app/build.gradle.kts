@@ -41,9 +41,15 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
+    implementation("androidx.annotation:annotation:1.3.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.4.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1")
     val navVersion = "2.4.1"
 
     implementation("androidx.legacy:legacy-support-v4:1.0.0")

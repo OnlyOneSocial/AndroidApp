@@ -13,15 +13,24 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dev.syorito_hatsuki.onlyone.R
+import dev.syorito_hatsuki.onlyone.api.OnlyOneApi
 import dev.syorito_hatsuki.onlyone.databinding.ActivityMainBinding
 import dev.syorito_hatsuki.onlyone.ui.fragments.BlankFragmentDirections
+import org.koin.java.KoinJavaComponent
 
+val onlyOneApi by KoinJavaComponent.inject<OnlyOneApi>(OnlyOneApi::class.java)
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val string = intent.getStringExtra("token")
+        if (string != null) {
+            onlyOneApi.setToken(string)
+        }
+
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
