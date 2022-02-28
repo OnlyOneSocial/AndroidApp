@@ -17,5 +17,10 @@ jobs:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/app/build.gradle.kts') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
       - name: Build with Gradle
         run: ./gradlew assembleDebug
