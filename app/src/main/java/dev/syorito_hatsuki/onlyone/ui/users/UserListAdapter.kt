@@ -15,20 +15,15 @@ import dev.syorito_hatsuki.onlyone.api.user.get_users.response.User
 import dev.syorito_hatsuki.onlyone.databinding.ItemUserBinding
 
 typealias OnItemClickListener = (Int) -> Unit
-typealias ImgLoaderCoil = (Int) -> Unit
 
 class UserListAdapter(private val userList: List<User>,private val imageLoader: ImageLoader) :
     RecyclerView.Adapter<UserListAdapter.UserViewHolder>() {
 
-
     lateinit var onItemClickListener: OnItemClickListener
-    lateinit var imgLoader: ImageLoader
 
     class UserViewHolder(item: View, listener: OnItemClickListener) :
         RecyclerView.ViewHolder(item) {
         val binding = ItemUserBinding.bind(item)
-
-
 
         init {
 

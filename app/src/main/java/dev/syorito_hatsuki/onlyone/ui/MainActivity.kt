@@ -19,8 +19,6 @@ import dev.syorito_hatsuki.onlyone.ui.fragments.BlankFragmentDirections
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var viewModel: MainViewModel
-    private lateinit var mToolBar: Toolbar;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,13 +43,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu,menu)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
-        menu.run {
-            viewModel.changeTitle.observe(this@MainActivity) {
-                title = it
-            }
-        }
         return true
     }
 

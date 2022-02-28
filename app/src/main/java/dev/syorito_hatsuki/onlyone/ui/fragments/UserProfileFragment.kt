@@ -17,7 +17,6 @@ import coil.transform.CircleCropTransformation
 import dev.syorito_hatsuki.onlyone.R
 import dev.syorito_hatsuki.onlyone.databinding.FragmentBlankBinding
 import dev.syorito_hatsuki.onlyone.ui.MainActivity
-import dev.syorito_hatsuki.onlyone.ui.MainViewModel
 import kotlinx.coroutines.flow.collect
 
 // TODO: Rename parameter arguments, choose names that match
@@ -32,7 +31,7 @@ private const val ARG_PARAM1 = "UserID"
 class BlankFragment : Fragment(), LifecycleObserver {
     // TODO: Rename and change types of parameters
     private var param1: Int? = null
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: UserPage by viewModels()
     private var _binding: FragmentBlankBinding? = null
 
     private val binding get() = _binding!!
@@ -55,12 +54,10 @@ class BlankFragment : Fragment(), LifecycleObserver {
 
         _binding = FragmentBlankBinding.inflate(inflater, container, false)
 
-
         val textView: TextView = binding.Username
         slideshowViewModel.text.observe(viewLifecycleOwner) {
             param1?.let { it1 ->
                 textView.text = it.toString()
-                viewModel.updateActionBarTitle(it.toString())
             }
         }
 

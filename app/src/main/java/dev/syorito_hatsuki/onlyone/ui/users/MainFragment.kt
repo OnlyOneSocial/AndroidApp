@@ -11,7 +11,6 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import coil.ImageLoader
 import dev.syorito_hatsuki.onlyone.databinding.FragmentHomeBinding
-import dev.syorito_hatsuki.onlyone.ui.MainViewModel
 import kotlinx.coroutines.flow.collect
 
 class MainFragment : Fragment()  {
