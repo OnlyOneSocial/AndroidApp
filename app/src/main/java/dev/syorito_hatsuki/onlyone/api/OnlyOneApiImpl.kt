@@ -11,18 +11,14 @@ import kotlinx.serialization.*
 import kotlinx.serialization.json.decodeFromJsonElement
 
 class OnlyOneApiImpl(private val httpClient: HttpClient) : OnlyOneApi {
-    override suspend fun getUsers(): Users {
-        return httpClient.get {
-            url {
-                encodedPath = "user/get"
-            }
+    override suspend fun getUsers(): Users = httpClient.get {
+        url {
+            encodedPath = "user/get"
         }
     }
-    override suspend fun getUser(userID:Int): GetUser {
-        return httpClient.get {
-            url {
-                encodedPath = "user/get/${userID}"
-            }
+    override  suspend fun getUser(userID:Int): GetUser = httpClient.get {
+        url {
+            encodedPath = "user/get/${userID}"
         }
     }
 }
