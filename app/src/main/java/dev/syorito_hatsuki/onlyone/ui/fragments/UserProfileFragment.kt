@@ -46,7 +46,7 @@ class BlankFragment : Fragment(), LifecycleObserver {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
 
         val slideshowViewModel =
@@ -56,7 +56,7 @@ class BlankFragment : Fragment(), LifecycleObserver {
 
         val textView: TextView = binding.Username
         slideshowViewModel.text.observe(viewLifecycleOwner) {
-            param1?.let { it1 ->
+            param1?.let {
                 textView.text = it.toString()
             }
         }
@@ -69,8 +69,6 @@ class BlankFragment : Fragment(), LifecycleObserver {
     @SuppressLint("SetTextI18n", "ResourceType")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
 
         lifecycleScope.launchWhenCreated {
             param1?.let { it ->

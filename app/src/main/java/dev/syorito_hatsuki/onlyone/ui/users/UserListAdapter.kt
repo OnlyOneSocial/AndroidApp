@@ -26,7 +26,6 @@ class UserListAdapter(private val userList: List<User>,private val imageLoader: 
         val binding = ItemUserBinding.bind(item)
 
         init {
-
             item.setOnClickListener {
                 listener(adapterPosition)
             }
@@ -34,7 +33,6 @@ class UserListAdapter(private val userList: List<User>,private val imageLoader: 
 
         fun bind(id: Int, avatar: String, username: String,imgLoader: ImageLoader) {
             Coil.setImageLoader(imgLoader)
-
             binding.Image.load("https://cdn.only-one.su/public/clients/$id/100-$avatar") {
                 error(R.drawable.no_avatar)
                 transformations(CircleCropTransformation())

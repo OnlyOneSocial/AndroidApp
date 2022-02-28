@@ -10,4 +10,6 @@
     <string name="test">Test</string>
     <string name="logout">Logout</string>
     <string name="textview">TextView</string>
+    <string name="test2">test</string>
+    <string name="todo">TODO</string>
 </resources>
