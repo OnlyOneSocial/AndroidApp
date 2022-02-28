@@ -1,4 +1,4 @@
-package dev.syorito_hatsuki.onlyone.ui.activity.main.fragment.main.viewmodel
+package dev.syorito_hatsuki.onlyone.ui.users
 
 import androidx.lifecycle.ViewModel
 import dev.syorito_hatsuki.onlyone.api.OnlyOneApi

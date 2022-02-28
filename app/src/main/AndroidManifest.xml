@@ -4,6 +4,7 @@
     package="dev.syorito_hatsuki.onlyone" >
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:networkSecurityConfig="@xml/network_security_config"
@@ -16,7 +17,7 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="n">
         <activity
-            android:name="dev.syorito_hatsuki.onlyone.ui.activity.main.MainActivity"
+            android:name="dev.syorito_hatsuki.onlyone.ui.MainActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

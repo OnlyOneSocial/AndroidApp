@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Only One</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="image_user">Image user</string>
+    <string name="test">Test</string>
+    <string name="logout">Logout</string>
+    <string name="textview">TextView</string>
+    <string name="test2">test</string>
+    <string name="todo">TODO</string>
 </resources>
