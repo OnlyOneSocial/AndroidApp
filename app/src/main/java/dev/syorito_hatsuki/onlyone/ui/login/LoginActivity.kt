@@ -3,6 +3,7 @@ package dev.syorito_hatsuki.onlyone.ui.login
 import android.app.Activity
 
 import android.content.ContentValues.TAG
+import android.content.Context
 
 import android.content.Intent
 import androidx.lifecycle.Observer
@@ -29,18 +30,41 @@ import dev.syorito_hatsuki.onlyone.R
 import dev.syorito_hatsuki.onlyone.ui.MainActivity
 import kotlinx.coroutines.flow.collect
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var loginViewModel: LoginViewModel
     private lateinit var binding: ActivityLoginBinding
-    private lateinit var dataStore: DataStore<Preferences>
+
+    val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+        val tokenPreferenceID = stringPreferencesKey("token")
+        val intent = Intent(this,MainActivity::class.java)
+
+        val exampleCounterFlow: Flow<String> = baseContext.dataStore.data
+            .map { preferences ->
+                // No type safety.
+                preferences[tokenPreferenceID] ?: ""
+            }
+        lifecycleScope.launchWhenCreated {
+            exampleCounterFlow.collect {
+                println(it)
+                intent.putExtra("token", it)
+                startActivity(intent)
+            }
+        }
+
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -98,7 +122,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         login.setOnClickListener {
-            val intent = Intent(this,MainActivity::class.java)
+
             SafetyNet.getClient(this).verifyWithRecaptcha("6LepD6geAAAAAGr_UrhHRv4gpdu1ATyX02r-seio")
                 .addOnSuccessListener(this, OnSuccessListener { response ->
                     // Indicates communication with reCAPTCHA service was
@@ -115,6 +139,11 @@ class LoginActivity : AppCompatActivity() {
                                 )
                                 .collect {
                                     if (it.id>0) {
+
+                                        baseContext.dataStore.edit { settings ->
+                                            settings[tokenPreferenceID] = it.jwt
+                                        }
+
                                         intent.putExtra("token", it.jwt)
                                         startActivity(intent)
                                     }
