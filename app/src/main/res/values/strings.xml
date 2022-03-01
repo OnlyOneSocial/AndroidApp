@@ -9,7 +9,6 @@
     <string name="image_user">Image user</string>
     <string name="test">Test</string>
     <string name="logout">Logout</string>
-    <string name="textview">TextView</string>
     <string name="test2">test</string>
     <string name="todo">TODO</string>
     <!-- Strings related to login -->
@@ -22,4 +21,5 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="title_activity_login">LoginActivity</string>
+    <string name="textview">TextView</string>
 </resources>

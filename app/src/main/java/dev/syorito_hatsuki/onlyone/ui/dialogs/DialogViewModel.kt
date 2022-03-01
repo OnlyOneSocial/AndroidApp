@@ -1,4 +1,4 @@
-package dev.syorito_hatsuki.onlyone.ui.MyProfile
+package dev.syorito_hatsuki.onlyone.ui.dialogs
 
 import androidx.lifecycle.ViewModel
 import dev.syorito_hatsuki.onlyone.api.OnlyOneApi
@@ -7,9 +7,9 @@ import org.koin.java.KoinJavaComponent.inject
 
 val onlyOneApi by inject<OnlyOneApi>(OnlyOneApi::class.java)
 
-class MainViewModel : ViewModel() {
-    fun getUsersList() = flow {
-        val users = onlyOneApi.getUsers()
+class DialogViewModel : ViewModel() {
+    fun getDialogs() = flow {
+        val users = onlyOneApi.getDialogs()
         emit(users)
     }
 }

@@ -1,7 +1,9 @@
 package dev.syorito_hatsuki.onlyone.ui.login
 
 import android.app.Activity
+
 import android.content.ContentValues.TAG
+
 import android.content.Intent
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -15,6 +17,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.Toast
+import androidx.datastore.core.DataStore
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.CommonStatusCodes
@@ -22,16 +25,19 @@ import com.google.android.gms.safetynet.SafetyNet
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
 import dev.syorito_hatsuki.onlyone.databinding.ActivityLoginBinding
-
 import dev.syorito_hatsuki.onlyone.R
 import dev.syorito_hatsuki.onlyone.ui.MainActivity
 import kotlinx.coroutines.flow.collect
-import java.util.concurrent.Executor
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
+
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var loginViewModel: LoginViewModel
     private lateinit var binding: ActivityLoginBinding
+    private lateinit var dataStore: DataStore<Preferences>
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,8 +49,6 @@ class LoginActivity : AppCompatActivity() {
         val password = binding.password
         val login = binding.login
         val loading = binding.loading
-
-
 
         loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
             .get(LoginViewModel::class.java)
@@ -72,14 +76,8 @@ class LoginActivity : AppCompatActivity() {
             }
             if (loginResult.success != null) {
                 updateUiWithUser(loginResult.success)
-                /*var intent = Intent(this,MainActivity::class.java)
-                intent.putExtra("token","")
-                startActivity(intent)*/
             }
             setResult(Activity.RESULT_OK)
-
-            //Complete and destroy login activity once successful
-            //finish()
 
         })
 
@@ -97,22 +95,10 @@ class LoginActivity : AppCompatActivity() {
                     password.text.toString()
                 )
             }
-
-            setOnEditorActionListener { _, actionId, _ ->
-                when (actionId) {
-                    EditorInfo.IME_ACTION_DONE ->
-                        loginViewModel.login(
-                            username.text.toString(),
-                            password.text.toString()
-                        )
-                }
-                false
-            }
-
         }
 
         login.setOnClickListener {
-            var intent = Intent(this,MainActivity::class.java)
+            val intent = Intent(this,MainActivity::class.java)
             SafetyNet.getClient(this).verifyWithRecaptcha("6LepD6geAAAAAGr_UrhHRv4gpdu1ATyX02r-seio")
                 .addOnSuccessListener(this, OnSuccessListener { response ->
                     // Indicates communication with reCAPTCHA service was
@@ -147,9 +133,6 @@ class LoginActivity : AppCompatActivity() {
                         Log.d(TAG, "Error: ${e.message}")
                     }
                 })
-
-
-            //loginViewModel.login(username.text.toString(), password.text.toString())
         }
     }
 

@@ -14,8 +14,8 @@ android {
         applicationId = "dev.syorito_hatsuki.onlyone"
         minSdk = 23
         targetSdk = 32
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 3
+        versionName = "1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -53,6 +53,9 @@ dependencies {
     val navVersion = "2.4.1"
 
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
+    /*implementation("androidx.datastore:datastore:1.0.0")*/
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+
 
     // Kotlin
     implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")

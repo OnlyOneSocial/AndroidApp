@@ -1,21 +1,10 @@
 package dev.syorito_hatsuki.onlyone.api
 
-import dev.syorito_hatsuki.onlyone.api.user.get_users.response.GetUser
-import dev.syorito_hatsuki.onlyone.api.user.get_users.response.User
-import dev.syorito_hatsuki.onlyone.api.user.get_users.response.UserAuth
-import dev.syorito_hatsuki.onlyone.api.user.get_users.response.Users
+import dev.syorito_hatsuki.onlyone.api.user.get_users.response.*
 import io.ktor.client.*
-import io.ktor.client.call.*
 import io.ktor.client.request.*
-import io.ktor.client.statement.*
 import io.ktor.http.*
-import io.ktor.http.cio.*
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.*
-import kotlinx.serialization.json.JsonPrimitive
-import kotlinx.serialization.json.decodeFromJsonElement
-import kotlin.math.log
 
 @Serializable
 data class Auth (
@@ -31,6 +20,18 @@ class OnlyOneApiImpl(private val httpClient: HttpClient) : OnlyOneApi {
             encodedPath = "user/get/${userID}"
         }
         println(_token)
+        header("Authorization","Bearer $_token")
+    }
+    override suspend fun getDialogs(): List<Dialog> = httpClient.get{
+        url {
+            encodedPath = "message/im"
+        }
+        header("Authorization","Bearer $_token")
+    }
+    override suspend fun getMessages(userID: Int): List<DialogMessage> = httpClient.get{
+        url {
+            encodedPath = "message/get/$userID"
+        }
         header("Authorization","Bearer $_token")
     }
     override suspend fun getUsers(): Users = httpClient.get {
