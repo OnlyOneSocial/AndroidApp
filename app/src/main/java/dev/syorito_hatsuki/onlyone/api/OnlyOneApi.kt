@@ -3,6 +3,7 @@ package dev.syorito_hatsuki.onlyone.api
 import android.service.autofill.UserData
 import dev.syorito_hatsuki.onlyone.api.user.get_users.response.GetUser
 import dev.syorito_hatsuki.onlyone.api.user.get_users.response.User
+import dev.syorito_hatsuki.onlyone.api.user.get_users.response.UserAuth
 import dev.syorito_hatsuki.onlyone.api.user.get_users.response.Users
 
 interface OnlyOneApi {
@@ -10,5 +11,5 @@ interface OnlyOneApi {
     suspend fun getThisUser(): User
     suspend fun getUser(userID: Int): GetUser
     fun setToken(token: String): Boolean
-    suspend fun auth(login: String,password:String): User
+    suspend fun auth(login: String,password:String,captcha: String): UserAuth
 }

@@ -1,6 +1,7 @@
 package dev.syorito_hatsuki.onlyone.ui.login
 
 import android.app.Activity
+import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -9,14 +10,23 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.api.CommonStatusCodes
+import com.google.android.gms.safetynet.SafetyNet
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
 import dev.syorito_hatsuki.onlyone.databinding.ActivityLoginBinding
 
 import dev.syorito_hatsuki.onlyone.R
 import dev.syorito_hatsuki.onlyone.ui.MainActivity
+import kotlinx.coroutines.flow.collect
+import java.util.concurrent.Executor
 
 class LoginActivity : AppCompatActivity() {
 
@@ -33,6 +43,8 @@ class LoginActivity : AppCompatActivity() {
         val password = binding.password
         val login = binding.login
         val loading = binding.loading
+
+
 
         loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
             .get(LoginViewModel::class.java)
@@ -60,14 +72,15 @@ class LoginActivity : AppCompatActivity() {
             }
             if (loginResult.success != null) {
                 updateUiWithUser(loginResult.success)
+                /*var intent = Intent(this,MainActivity::class.java)
+                intent.putExtra("token","")
+                startActivity(intent)*/
             }
             setResult(Activity.RESULT_OK)
 
             //Complete and destroy login activity once successful
             //finish()
-            var intent = Intent(this,MainActivity::class.java)
-            intent.putExtra("token","token")
-            startActivity(intent)
+
         })
 
         username.afterTextChanged {
@@ -96,10 +109,47 @@ class LoginActivity : AppCompatActivity() {
                 false
             }
 
-            login.setOnClickListener {
-                loading.visibility = View.VISIBLE
-                loginViewModel.login(username.text.toString(), password.text.toString())
-            }
+        }
+
+        login.setOnClickListener {
+            var intent = Intent(this,MainActivity::class.java)
+            SafetyNet.getClient(this).verifyWithRecaptcha("6LepD6geAAAAAGr_UrhHRv4gpdu1ATyX02r-seio")
+                .addOnSuccessListener(this, OnSuccessListener { response ->
+                    // Indicates communication with reCAPTCHA service was
+                    // successful.
+                    val userResponseToken = response.tokenResult
+                    if (response.tokenResult?.isNotEmpty() == true) {
+                        // Validate the user response token using the
+                        // reCAPTCHA siteverify API.
+                        loading.visibility = View.VISIBLE
+                        lifecycleScope.launchWhenCreated {
+                            loginViewModel
+                                .LoginUser(username.text.toString(), password.text.toString(),
+                                    response.tokenResult!!
+                                )
+                                .collect {
+                                    if (it.id>0) {
+                                        intent.putExtra("token", it.jwt)
+                                        startActivity(intent)
+                                    }
+                                }
+                        }
+                    }
+                })
+                .addOnFailureListener(this, OnFailureListener { e ->
+                    if (e is ApiException) {
+                        // An error occurred when communicating with the
+                        // reCAPTCHA service. Refer to the status code to
+                        // handle the error appropriately.
+                        Log.d(TAG, "Error: ${CommonStatusCodes.getStatusCodeString(e.statusCode)}")
+                    } else {
+                        // A different, unknown type of error occurred.
+                        Log.d(TAG, "Error: ${e.message}")
+                    }
+                })
+
+
+            //loginViewModel.login(username.text.toString(), password.text.toString())
         }
     }
 

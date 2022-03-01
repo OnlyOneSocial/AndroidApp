@@ -91,6 +91,13 @@ class BlankFragment : Fragment(), LifecycleObserver {
                     }
 
                     binding.Username.text = it.user.username
+
+                    when(it.friend_status.status){
+                        0 -> println("request")
+                        1 -> println("friends")
+                        3 -> println("not friends, not request")
+                    }
+
                     binding.Bio.text = it.user.bio
                 }
             }
