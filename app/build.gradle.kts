@@ -1,8 +1,13 @@
+val kotlin_version: String by extra
 plugins {
     id ("com.android.application")
     id ("org.jetbrains.kotlin.android")
     id ("org.jetbrains.kotlin.plugin.serialization") version "1.6.10"
     id("androidx.navigation.safeargs.kotlin")
+    id("com.google.gms.google-services")
+}
+apply {
+    plugin("kotlin-android")
 }
 
 
@@ -14,7 +19,7 @@ android {
         applicationId = "dev.syorito_hatsuki.onlyone"
         minSdk = 23
         targetSdk = 32
-        versionCode = 3
+        versionCode = 4
         versionName = "1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -47,9 +52,12 @@ android {
 }
 
 dependencies {
+    implementation("com.google.firebase:firebase-bom:29.1.0")
+    implementation("com.google.firebase:firebase-analytics:20.1.0")
     implementation("androidx.annotation:annotation:1.3.0")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.4.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1")
+    implementation("com.google.firebase:firebase-messaging-ktx:23.0.0")
     val navVersion = "2.4.1"
 
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
@@ -84,5 +92,9 @@ dependencies {
 
     androidTestImplementation ("androidx.test.ext:junit:1.1.3")
     androidTestImplementation ("androidx.test.espresso:espresso-core:3.4.0")
+    implementation("androidx.core:core-ktx:1.7.0")
 
+}
+repositories {
+    mavenCentral()
 }

@@ -19,7 +19,6 @@ class OnlyOneApiImpl(private val httpClient: HttpClient) : OnlyOneApi {
         url {
             encodedPath = "user/get/${userID}"
         }
-        println(_token)
         header("Authorization","Bearer $_token")
     }
     override suspend fun getDialogs(): List<Dialog> = httpClient.get{
@@ -38,7 +37,6 @@ class OnlyOneApiImpl(private val httpClient: HttpClient) : OnlyOneApi {
         url {
             encodedPath = "user/get"
         }
-        println(_token)
         header("Authorization","Bearer $_token")
     }
     override suspend fun getThisUser(token: String): User = httpClient.get {
