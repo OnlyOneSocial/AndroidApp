@@ -15,7 +15,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
-import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.Toast
 import androidx.datastore.core.DataStore
@@ -28,26 +27,22 @@ import com.google.android.gms.tasks.OnSuccessListener
 import dev.syorito_hatsuki.onlyone.databinding.ActivityLoginBinding
 import dev.syorito_hatsuki.onlyone.R
 import dev.syorito_hatsuki.onlyone.ui.MainActivity
-import kotlinx.coroutines.flow.collect
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
-
+import io.ktor.client.features.*
+import io.ktor.http.*
+import kotlinx.coroutines.flow.*
 
 class LoginActivity : AppCompatActivity() {
-
     private lateinit var loginViewModel: LoginViewModel
     private lateinit var binding: ActivityLoginBinding
 
     val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
 
         val tokenPreferenceID = stringPreferencesKey("token")
         val intent = Intent(this,MainActivity::class.java)
@@ -58,13 +53,26 @@ class LoginActivity : AppCompatActivity() {
                 preferences[tokenPreferenceID] ?: ""
             }
         lifecycleScope.launchWhenCreated {
-            exampleCounterFlow.collect {
-                println(it)
-                intent.putExtra("token", it)
-                startActivity(intent)
+            exampleCounterFlow.collect { token ->
+                if (token != "") loginViewModel.testToken(token).catch { e ->
+                    when(e){
+                        is ClientRequestException -> {
+                            //Log.d(TAG, "ClientRequestException ${e.response.status}")
+                            if(e.response.status== HttpStatusCode.Unauthorized) {
+                                baseContext.dataStore.edit { settings ->
+                                    settings[tokenPreferenceID] = ""
+                                }
+                            }
+                        }
+                        else -> Log.d(TAG, "Caught $e")
+                    }
+
+                }.collect {
+                    intent.putExtra("token", token)
+                    startActivity(intent)
+                }
             }
         }
-
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -122,7 +130,6 @@ class LoginActivity : AppCompatActivity() {
         }
 
         login.setOnClickListener {
-
             SafetyNet.getClient(this).verifyWithRecaptcha("6LepD6geAAAAAGr_UrhHRv4gpdu1ATyX02r-seio")
                 .addOnSuccessListener(this, OnSuccessListener { response ->
                     // Indicates communication with reCAPTCHA service was
@@ -137,8 +144,20 @@ class LoginActivity : AppCompatActivity() {
                                 .LoginUser(username.text.toString(), password.text.toString(),
                                     response.tokenResult!!
                                 )
+                                .onCompletion {
+                                    Log.d(TAG, "onCompletion")
+                                }
+                                .catch { e ->
+                                    when(e){
+                                        is ClientRequestException -> {
+                                            Log.d(TAG, "ClientRequestException ${e.response.status}")
+                                        }
+                                        else -> Log.d(TAG, "Caught $e")
+                                    }
+
+                                }
                                 .collect {
-                                    if (it.id>0) {
+
 
                                         baseContext.dataStore.edit { settings ->
                                             settings[tokenPreferenceID] = it.jwt
@@ -146,7 +165,7 @@ class LoginActivity : AppCompatActivity() {
 
                                         intent.putExtra("token", it.jwt)
                                         startActivity(intent)
-                                    }
+
                                 }
                         }
                     }

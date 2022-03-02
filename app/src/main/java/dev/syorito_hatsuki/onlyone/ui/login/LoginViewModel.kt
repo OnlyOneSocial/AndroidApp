@@ -35,6 +35,11 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
         }
     }
 
+    fun testToken(token: String) = flow {
+        val data = onlyOneApi.getThisUser(token)
+        emit(data)
+    }
+
     fun LoginUser(username: String, password: String,captcha: String) = flow {
         val data = onlyOneApi.auth(username,password,captcha)
         emit(data)

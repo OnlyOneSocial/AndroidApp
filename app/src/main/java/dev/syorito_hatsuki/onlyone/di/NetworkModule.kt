@@ -17,6 +17,7 @@ val networkModule = module {
 
 private fun provideKtorClient(): HttpClient {
     return HttpClient(Android) {
+        expectSuccess = true
         install(JsonFeature) {
             serializer = KotlinxSerializer(kotlinx.serialization.json.Json {
                 ignoreUnknownKeys = true
