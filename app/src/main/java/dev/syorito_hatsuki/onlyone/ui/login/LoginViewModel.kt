@@ -1,14 +1,13 @@
 package dev.syorito_hatsuki.onlyone.ui.login
 
+import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import android.util.Patterns
-import dev.syorito_hatsuki.onlyone.data.LoginRepository
-import dev.syorito_hatsuki.onlyone.data.Result
-
 import dev.syorito_hatsuki.onlyone.R
 import dev.syorito_hatsuki.onlyone.api.OnlyOneApi
+import dev.syorito_hatsuki.onlyone.data.LoginRepository
+import dev.syorito_hatsuki.onlyone.data.Result
 import kotlinx.coroutines.flow.flow
 import org.koin.java.KoinJavaComponent
 
@@ -40,8 +39,8 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
         emit(data)
     }
 
-    fun LoginUser(username: String, password: String,captcha: String) = flow {
-        val data = onlyOneApi.auth(username,password,captcha)
+    fun LoginUser(username: String, password: String, captcha: String) = flow {
+        val data = onlyOneApi.auth(username, password, captcha)
         emit(data)
     }
 

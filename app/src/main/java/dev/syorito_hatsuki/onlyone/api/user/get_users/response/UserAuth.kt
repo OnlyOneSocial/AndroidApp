@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class UserAuth(
-    val id:Int,
+    val id: Int,
     val username: String,
     val avatar: String,
     val jwt: String

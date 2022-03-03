@@ -13,7 +13,7 @@ import coil.ImageLoader
 import dev.syorito_hatsuki.onlyone.databinding.FragmentHomeBinding
 import kotlinx.coroutines.flow.collect
 
-class MainFragment : Fragment()  {
+class MainFragment : Fragment() {
 
     private val viewModel: MainViewModel by viewModels()
     private var _binding: FragmentHomeBinding? = null
@@ -40,14 +40,14 @@ class MainFragment : Fragment()  {
                         .crossfade(true)
                         .build()
                 }
-                 imageLoader?.let { it1 ->
-                     val adapter =  UserListAdapter(it.users, it1)
-                     binding.recycler.adapter = adapter
+                imageLoader?.let { it1 ->
+                    val adapter = UserListAdapter(it.users, it1)
+                    binding.recycler.adapter = adapter
 
-                     adapter.onItemClickListener = { position ->
-                       val action = MainFragmentDirections.goToUserPage(it.users[position].id)
-                       view.findNavController().navigate(action)
-                     }
+                    adapter.onItemClickListener = { position ->
+                        val action = MainFragmentDirections.goToUserPage(it.users[position].id)
+                        view.findNavController().navigate(action)
+                    }
                 }
             }
         }

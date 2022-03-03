@@ -7,12 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.GridLayoutManager
 import coil.ImageLoader
 import dev.syorito_hatsuki.onlyone.databinding.FragmentDialogsBinding
 import kotlinx.coroutines.flow.collect
 
-class DialogFragment : Fragment()  {
+class DialogFragment : Fragment() {
 
     private val viewModel: DialogViewModel by viewModels()
     private var _binding: FragmentDialogsBinding? = null
@@ -40,7 +39,7 @@ class DialogFragment : Fragment()  {
                         .build()
                 }
                 imageLoader?.let { it1 ->
-                    val adapter =  DialogListAdapter(it, it1)
+                    val adapter = DialogListAdapter(it, it1)
                     binding.recycler.adapter = adapter
 
                     adapter.onItemClickListener = { position ->

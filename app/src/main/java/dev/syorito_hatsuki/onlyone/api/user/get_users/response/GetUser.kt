@@ -8,16 +8,19 @@ data class GetUser(
     val friends: Friends,
     val user: User
 )
+
 @Serializable
 data class FriendStatus(
     val forme: Boolean,
     val status: Int
 )
+
 @Serializable
 data class Friends(
     val count: Int,
     val list: List<UserPage>? = null
 )
+
 @Serializable
 data class UserPage(
     val forme: Boolean,

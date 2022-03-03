@@ -1,36 +1,34 @@
 package dev.syorito_hatsuki.onlyone.ui.login
 
 import android.app.Activity
-
 import android.content.ContentValues.TAG
 import android.content.Context
-
 import android.content.Intent
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
+import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.safetynet.SafetyNet
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
-import dev.syorito_hatsuki.onlyone.databinding.ActivityLoginBinding
 import dev.syorito_hatsuki.onlyone.R
+import dev.syorito_hatsuki.onlyone.databinding.ActivityLoginBinding
 import dev.syorito_hatsuki.onlyone.ui.MainActivity
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
 import io.ktor.client.features.*
 import io.ktor.http.*
 import kotlinx.coroutines.flow.*
@@ -45,7 +43,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         val tokenPreferenceID = stringPreferencesKey("token")
-        val intent = Intent(this,MainActivity::class.java)
+        val intent = Intent(this, MainActivity::class.java)
 
         val exampleCounterFlow: Flow<String> = baseContext.dataStore.data
             .map { preferences ->
@@ -55,10 +53,10 @@ class LoginActivity : AppCompatActivity() {
         lifecycleScope.launchWhenCreated {
             exampleCounterFlow.collect { token ->
                 if (token != "") loginViewModel.testToken(token).catch { e ->
-                    when(e){
+                    when (e) {
                         is ClientRequestException -> {
                             //Log.d(TAG, "ClientRequestException ${e.response.status}")
-                            if(e.response.status== HttpStatusCode.Unauthorized) {
+                            if (e.response.status == HttpStatusCode.Unauthorized) {
                                 baseContext.dataStore.edit { settings ->
                                     settings[tokenPreferenceID] = ""
                                 }
@@ -130,7 +128,8 @@ class LoginActivity : AppCompatActivity() {
         }
 
         login.setOnClickListener {
-            SafetyNet.getClient(this).verifyWithRecaptcha("6LepD6geAAAAAGr_UrhHRv4gpdu1ATyX02r-seio")
+            SafetyNet.getClient(this)
+                .verifyWithRecaptcha("6LepD6geAAAAAGr_UrhHRv4gpdu1ATyX02r-seio")
                 .addOnSuccessListener(this, OnSuccessListener { response ->
                     // Indicates communication with reCAPTCHA service was
                     // successful.
@@ -141,31 +140,32 @@ class LoginActivity : AppCompatActivity() {
                         loading.visibility = View.VISIBLE
                         lifecycleScope.launchWhenCreated {
                             loginViewModel
-                                .LoginUser(username.text.toString(), password.text.toString(),
+                                .LoginUser(
+                                    username.text.toString(), password.text.toString(),
                                     response.tokenResult!!
                                 )
                                 .onCompletion {
                                     Log.d(TAG, "onCompletion")
                                 }
                                 .catch { e ->
-                                    when(e){
+                                    when (e) {
                                         is ClientRequestException -> {
-                                            Log.d(TAG, "ClientRequestException ${e.response.status}")
+                                            Log.d(
+                                                TAG,
+                                                "ClientRequestException ${e.response.status}"
+                                            )
                                         }
                                         else -> Log.d(TAG, "Caught $e")
                                     }
 
                                 }
                                 .collect {
+                                    baseContext.dataStore.edit { settings ->
+                                        settings[tokenPreferenceID] = it.jwt
+                                    }
 
-
-                                        baseContext.dataStore.edit { settings ->
-                                            settings[tokenPreferenceID] = it.jwt
-                                        }
-
-                                        intent.putExtra("token", it.jwt)
-                                        startActivity(intent)
-
+                                    intent.putExtra("token", it.jwt)
+                                    startActivity(intent)
                                 }
                         }
                     }

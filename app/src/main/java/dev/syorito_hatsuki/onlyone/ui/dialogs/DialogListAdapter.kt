@@ -16,7 +16,10 @@ import dev.syorito_hatsuki.onlyone.databinding.ItemDialogBinding
 
 typealias OnItemClickListener = (Int) -> Unit
 
-class DialogListAdapter(private val dialogList: List<Dialog>, private val imageLoader: ImageLoader) :
+class DialogListAdapter(
+    private val dialogList: List<Dialog>,
+    private val imageLoader: ImageLoader
+) :
     RecyclerView.Adapter<DialogListAdapter.UserViewHolder>() {
 
     lateinit var onItemClickListener: OnItemClickListener
@@ -31,7 +34,14 @@ class DialogListAdapter(private val dialogList: List<Dialog>, private val imageL
             }
         }
 
-        fun bind(userid: Int, username: String,time: String,text: String,avatar: String,imgLoader: ImageLoader) {
+        fun bind(
+            userid: Int,
+            username: String,
+            time: String,
+            text: String,
+            avatar: String,
+            imgLoader: ImageLoader
+        ) {
             Coil.setImageLoader(imgLoader)
 
             binding.apply {
@@ -52,13 +62,13 @@ class DialogListAdapter(private val dialogList: List<Dialog>, private val imageL
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_dialog, parent, false)
-        return UserViewHolder(view, onItemClickListener )
+        return UserViewHolder(view, onItemClickListener)
     }
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         val user = dialogList[position]
         print(user)
-        holder.bind(user.sendto, user.username, user.time,user.text,user.avatar,imageLoader)
+        holder.bind(user.sendto, user.username, user.time, user.text, user.avatar, imageLoader)
     }
 
     override fun getItemCount(): Int = dialogList.size

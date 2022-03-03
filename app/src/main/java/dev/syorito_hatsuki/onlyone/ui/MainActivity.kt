@@ -10,9 +10,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-
-import androidx.appcompat.widget.Toolbar
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -27,6 +25,7 @@ import dev.syorito_hatsuki.onlyone.ui.fragments.BlankFragmentDirections
 import org.koin.java.KoinJavaComponent
 
 val onlyOneApi by KoinJavaComponent.inject<OnlyOneApi>(OnlyOneApi::class.java)
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -40,34 +39,35 @@ class MainActivity : AppCompatActivity() {
             onlyOneApi.setToken(string)
         }
 
-        FirebaseMessaging.getInstance().token.addOnCompleteListener{ task ->
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
             if (!task.isSuccessful) {
                 return@addOnCompleteListener
             }
             val token = task.result
-            Log.e("TAG","Token -> $token")
+            /*lifecycleScope.launchWhenCreated {
+                dev.syorito_hatsuki.onlyone.service.onlyOneApi.setFBMToken(token)
+            }*/
+            Log.e("TAG", "Token -> $token")
         }
 
-        pushBroadcastReceiver = object: BroadcastReceiver() {
+        pushBroadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
                 val extras = intent?.extras
-                extras?.keySet()?.firstOrNull{
+                extras?.keySet()?.firstOrNull {
                     it == PushService.KEY_ACTION
-                }?.let {
-                    key -> when(extras.getString(key)) {
+                }?.let { key ->
+                    when (extras.getString(key)) {
                         PushService.ACTION_SHOW_MESSAGE -> {
-                            extras.getString(PushService.KEY_MESSAGE)?.let {
-                                    messageKey -> Toast
-                                        .makeText(
-                                            applicationContext,
-                                            messageKey,
-                                            Toast.LENGTH_LONG
-                                        ).show()
-
-
+                            extras.getString(PushService.KEY_MESSAGE)?.let { messageKey ->
+                                Toast
+                                    .makeText(
+                                        applicationContext,
+                                        messageKey,
+                                        Toast.LENGTH_LONG
+                                    ).show()
                             }
                         }
-                    else -> Log.e("TAG","no needed key found")
+                        else -> Log.e("TAG", "no needed key found")
                     }
                 }
             }
@@ -76,8 +76,7 @@ class MainActivity : AppCompatActivity() {
         val intentFilter = IntentFilter()
         intentFilter.addAction(PushService.INTENT_FILTER)
 
-        registerReceiver(pushBroadcastReceiver,intentFilter)
-
+        registerReceiver(pushBroadcastReceiver, intentFilter)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -94,12 +93,13 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }
-    fun setTitle(title: String){
+
+    fun setTitle(title: String) {
         supportActionBar?.title = title
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main_menu,menu)
+        menuInflater.inflate(R.menu.main_menu, menu)
 
         return true
     }
@@ -107,7 +107,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         super.onOptionsItemSelected(item)
         //Todo Make back func
-        if(item.itemId == android.R.id.home){
+        if (item.itemId == android.R.id.home) {
             val action = BlankFragmentDirections.goHome()
 
             val navController = findNavController(R.id.nav_host_fragment_activity_main)
