@@ -66,6 +66,8 @@ class LoginActivity : AppCompatActivity() {
                     }
 
                 }.collect {
+                    intent.putExtra("avatar", it.avatar)
+                    intent.putExtra("id", it.id)
                     intent.putExtra("token", token)
                     startActivity(intent)
                 }

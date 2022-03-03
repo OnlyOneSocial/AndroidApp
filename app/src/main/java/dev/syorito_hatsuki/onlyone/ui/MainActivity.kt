@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -12,9 +13,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import coil.imageLoader
+import coil.request.ImageRequest
+import coil.transform.CircleCropTransformation
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.messaging.FirebaseMessaging
 import dev.syorito_hatsuki.onlyone.R
@@ -82,8 +87,30 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val navView: BottomNavigationView = binding.navView
+        lifecycleScope.launchWhenCreated {
+            navView.menu.findItem(R.id.UserImage).title = ""
 
-        val navController = findNavController(R.id.nav_host_fragment_activity_main)
+            val avatar = intent.getStringExtra("avatar")
+            val userid = intent.getIntExtra("id",0)
+            val request = ImageRequest.Builder(applicationContext)
+                .data("https://cdn.only-one.su/public/clients/${userid}/100-${avatar}")
+                .transformations(CircleCropTransformation())
+                .target{
+
+                    it.setTintMode( PorterDuff.Mode.DST)
+
+                    navView.menu.findItem(R.id.UserImage).icon = it
+
+                }
+                .build()
+            imageLoader.enqueue(request)
+        }
+
+
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
+
+        val navController = navHostFragment.navController
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
