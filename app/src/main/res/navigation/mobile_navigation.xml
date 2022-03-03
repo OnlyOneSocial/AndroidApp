@@ -22,10 +22,10 @@
         tools:layout="@layout/fragment_dialogs" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="dev.syorito_hatsuki.onlyone.ui.users.MainFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/UserProfile"
+        android:name="dev.syorito_hatsuki.onlyone.ui.fragments.BlankFragment"
+        android:label="@string/user_page"
+        tools:layout="@layout/fragment_blank" />
     <fragment
         android:id="@+id/blankFragment"
         android:name="dev.syorito_hatsuki.onlyone.ui.fragments.BlankFragment"

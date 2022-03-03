@@ -50,12 +50,19 @@ class OnlyOneApiImpl(private val httpClient: HttpClient) : OnlyOneApi {
         header("Authorization", "Bearer $_token")
     }
 
-    override suspend fun getThisUser(token: String): User = httpClient.get {
+    override suspend fun getUserByToken(token: String): User = httpClient.get {
         url {
             encodedPath = "user/thisuser"
         }
         header("Authorization", "Bearer $token")
     }
+    override suspend fun getThisUser(): User = httpClient.get {
+        url {
+            encodedPath = "user/thisuser"
+        }
+        header("Authorization", "Bearer $_token")
+    }
+
 
     override fun setToken(token: String): Boolean {
         _token = token

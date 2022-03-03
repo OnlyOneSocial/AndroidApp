@@ -63,41 +63,41 @@ class BlankFragment : Fragment(), LifecycleObserver {
         super.onViewCreated(view, savedInstanceState)
 
         lifecycleScope.launchWhenCreated {
-            param1?.let { it ->
-                viewModel.getUserInfo(it).collect {
-                    binding.UserImage.load("https://cdn.only-one.su/public/clients/${it.user.id}/${it.user.avatar}") {
-                        error(R.drawable.no_avatar)
-                        transformations(CircleCropTransformation())
-                    }
-
-                    (activity as MainActivity).setTitle(it.user.username)
-
-                    when (val num = System.currentTimeMillis() / 1000 - it.user.online) {
-                        in 0..60 * 3 -> binding.Online.text = "Онлайн"
-                        in 60 * 3..60 * 60 -> binding.Online.text = "${num / 60} минут назад"
-                        in 60 * 60..60 * 60 * 24 -> binding.Online.text =
-                            "${num / 60 / 60} час назад"
-                        in 60 * 60 * 24..60 * 60 * 24 * 31 -> binding.Online.text =
-                            "${num / 60 / 60 / 24} день назад"
-                        else -> {
-                            binding.Online.text = DateUtils.formatDateTime(
-                                context,
-                                it.user.online * 1000,
-                                DateUtils.FORMAT_SHOW_DATE
-                            )
-                        }
-                    }
-
-                    binding.Username.text = it.user.username
-
-                    when (it.friend_status.status) {
-                        0 -> println("request")
-                        1 -> println("friends")
-                        3 -> println("not friends, not request")
-                    }
-
-                    binding.Bio.text = it.user.bio
+            var userid = 0
+            param1?.let { it -> userid = it }
+            viewModel.getUserInfo(userid).collect {
+                binding.UserImage.load("https://cdn.only-one.su/public/clients/${it.user.id}/${it.user.avatar}") {
+                    error(R.drawable.no_avatar)
+                    transformations(CircleCropTransformation())
                 }
+
+                (activity as MainActivity).setTitle(it.user.username)
+
+                when (val num = System.currentTimeMillis() / 1000 - it.user.online) {
+                    in 0..60 * 3 -> binding.Online.text = "Онлайн"
+                    in 60 * 3..60 * 60 -> binding.Online.text = "${num / 60} минут назад"
+                    in 60 * 60..60 * 60 * 24 -> binding.Online.text =
+                        "${num / 60 / 60} час назад"
+                    in 60 * 60 * 24..60 * 60 * 24 * 31 -> binding.Online.text =
+                        "${num / 60 / 60 / 24} день назад"
+                    else -> {
+                        binding.Online.text = DateUtils.formatDateTime(
+                            context,
+                            it.user.online * 1000,
+                            DateUtils.FORMAT_SHOW_DATE
+                        )
+                    }
+                }
+
+                binding.Username.text = it.user.username
+
+                when (it.friend_status.status) {
+                    0 -> println("request")
+                    1 -> println("friends")
+                    3 -> println("not friends, not request")
+                }
+
+                binding.Bio.text = it.user.bio
             }
         }
 

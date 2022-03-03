@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dev.syorito_hatsuki.onlyone.api.OnlyOneApi
+import dev.syorito_hatsuki.onlyone.api.user.get_users.response.User
 import kotlinx.coroutines.flow.flow
 import org.koin.java.KoinJavaComponent
 
@@ -17,7 +18,11 @@ class UserPage : ViewModel() {
     val text: LiveData<String> = _text
 
     fun getUserInfo(userid: Int) = flow {
-        val user = onlyOneApi.getUser(userid)
+        var userID = userid
+        if (userid == 0) {
+            userID = onlyOneApi.getThisUser().id
+        }
+        val user = onlyOneApi.getUser(userID)
         emit(user)
     }
 }

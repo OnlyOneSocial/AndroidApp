@@ -6,7 +6,8 @@ interface OnlyOneApi {
     suspend fun getUsers(): Users
     suspend fun getDialogs(): List<Dialog>
     suspend fun getMessages(userID: Int): List<DialogMessage>
-    suspend fun getThisUser(token: String): User
+    suspend fun getUserByToken(token: String): User
+    suspend fun getThisUser(): User
     suspend fun setFBMToken(token: String) : Boolean
     suspend fun getUser(userID: Int): GetUser
     fun setToken(token: String): Boolean

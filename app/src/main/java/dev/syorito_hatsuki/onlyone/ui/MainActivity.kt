@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity() {
 
         val navView: BottomNavigationView = binding.navView
         lifecycleScope.launchWhenCreated {
-            navView.menu.findItem(R.id.UserImage).title = ""
+            navView.menu.findItem(R.id.UserProfile).title = ""
 
             val avatar = intent.getStringExtra("avatar")
             val userid = intent.getIntExtra("id",0)
@@ -99,7 +99,7 @@ class MainActivity : AppCompatActivity() {
 
                     it.setTintMode( PorterDuff.Mode.DST)
 
-                    navView.menu.findItem(R.id.UserImage).icon = it
+                    navView.menu.findItem(R.id.UserProfile).icon = it
 
                 }
                 .build()
@@ -113,7 +113,7 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
+                R.id.navigation_home, R.id.navigation_dashboard, R.id.UserProfile
             )
         )
 
