@@ -96,11 +96,8 @@ class MainActivity : AppCompatActivity() {
                 .data("https://cdn.only-one.su/public/clients/${userid}/100-${avatar}")
                 .transformations(CircleCropTransformation())
                 .target{
-
                     it.setTintMode( PorterDuff.Mode.DST)
-
                     navView.menu.findItem(R.id.UserProfile).icon = it
-
                 }
                 .build()
             imageLoader.enqueue(request)

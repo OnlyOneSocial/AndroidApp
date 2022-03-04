@@ -13,8 +13,10 @@ data class Auth(
     val captcha: String
 )
 
+
 class OnlyOneApiImpl(private val httpClient: HttpClient) : OnlyOneApi {
     private lateinit var _token: String
+
     override suspend fun getUser(userID: Int): GetUser = httpClient.get {
         url {
             encodedPath = "user/get/${userID}"
