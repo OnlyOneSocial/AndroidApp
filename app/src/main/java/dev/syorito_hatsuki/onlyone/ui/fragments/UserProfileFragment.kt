@@ -90,6 +90,7 @@ class BlankFragment : Fragment(), LifecycleObserver {
                 }
 
                 binding.Username.text = it.user.username
+                binding.UserStatus.text = it.user.status
 
                 when (it.friend_status.status) {
                     0 -> println("request")

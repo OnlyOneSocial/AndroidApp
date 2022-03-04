@@ -19,7 +19,7 @@ android {
         applicationId = "dev.syorito_hatsuki.onlyone"
         minSdk = 23
         targetSdk = 32
-        versionCode = 5
+        versionCode = 7
         versionName = "1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

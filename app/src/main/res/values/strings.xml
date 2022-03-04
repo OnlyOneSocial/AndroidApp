@@ -23,4 +23,7 @@
     <string name="title_activity_login">LoginActivity</string>
     <string name="textview">TextView</string>
     <string name="user_page">User page</string>
+    <string name="username">Username</string>
+    <string name="online">Online</string>
+    <string name="userstatus">UserStatus</string>
 </resources>
