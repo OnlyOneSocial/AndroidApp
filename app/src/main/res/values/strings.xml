@@ -26,4 +26,6 @@
     <string name="username">Username</string>
     <string name="online">Online</string>
     <string name="userstatus">UserStatus</string>
+    <string name="time">time</string>
+    <string name="message">Message</string>
 </resources>

@@ -22,7 +22,6 @@ import kotlinx.coroutines.flow.collect
 private const val ARG_PARAM1 = "UserID"
 
 class BlankFragment : Fragment(), LifecycleObserver {
-    // TODO: Rename and change types of parameters
     private var param1: Int? = null
     private val viewModel: UserPage by viewModels()
     private var _binding: FragmentBlankBinding? = null

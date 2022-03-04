@@ -22,13 +22,13 @@
         app:layout_constraintVertical_bias="0.45">
 
         <TextView
-            android:id="@+id/Time"
+            android:id="@+id/MessageTime"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="13dp"
             android:text="@string/textview"
-            app:layout_constraintBottom_toTopOf="@+id/MessageDialogText"
+            app:layout_constraintBottom_toTopOf="@+id/MessageText"
             app:layout_constraintTop_toBottomOf="@+id/Username"
             app:layout_constraintVertical_bias="0.0"
             tools:ignore="MissingConstraints"
@@ -45,12 +45,12 @@
             tools:layout_editor_absoluteY="0dp" />
 
         <TextView
-            android:id="@+id/MessageDialogText"
+            android:id="@+id/MessageText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/textview"
-            app:layout_constraintTop_toBottomOf="@+id/Time"
+            app:layout_constraintTop_toBottomOf="@+id/MessageTime"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="16dp" />
 

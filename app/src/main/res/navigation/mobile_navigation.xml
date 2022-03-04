@@ -19,7 +19,11 @@
         android:id="@+id/navigation_dashboard"
         android:name="dev.syorito_hatsuki.onlyone.ui.dialogs.DialogFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dialogs" />
+        tools:layout="@layout/fragment_dialogs" >
+        <action
+            android:id="@+id/goToMessages"
+            app:destination="@id/messageFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/UserProfile"
@@ -37,5 +41,14 @@
         <action
             android:id="@+id/goHome"
             app:destination="@id/navigation_home" />
+    </fragment>
+    <fragment
+        android:id="@+id/messageFragment"
+        android:name="dev.syorito_hatsuki.onlyone.ui.dialogs.messages.MessageFragment"
+        android:label="MessageFragment" >
+        <argument
+            android:name="UserID"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
 </navigation>

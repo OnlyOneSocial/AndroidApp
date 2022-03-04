@@ -46,8 +46,8 @@ class DialogListAdapter(
 
             binding.apply {
                 Username.text = username
-                Time.text = time
-                MessageDialogText.text = text
+                MessageTime.text = time
+                MessageText.text = text
             }
             //println(avatar)
             //println(userid)
