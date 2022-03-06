@@ -49,8 +49,7 @@ class DialogListAdapter(
                 MessageTime.text = time
                 MessageText.text = text
             }
-            //println(avatar)
-            //println(userid)
+
             binding.Image.load("https://cdn.only-one.su/public/clients/$userid/100-$avatar") {
                 error(R.drawable.no_avatar)
                 transformations(CircleCropTransformation())

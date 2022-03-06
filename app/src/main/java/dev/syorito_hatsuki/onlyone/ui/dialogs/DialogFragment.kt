@@ -33,7 +33,6 @@ class DialogFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         lifecycleScope.launchWhenCreated {
             viewModel.getDialogs().collect {
-                //binding.recycler.layoutManager = GridLayoutManager(requireContext(), 3)
                 val imageLoader = context?.let { it1 ->
                     ImageLoader.Builder(it1)
                         .availableMemoryPercentage(0.25)

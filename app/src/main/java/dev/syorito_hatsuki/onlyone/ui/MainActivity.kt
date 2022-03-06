@@ -130,12 +130,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         super.onOptionsItemSelected(item)
-        //Todo Make back func
         if (item.itemId == android.R.id.home) {
-            val action = BlankFragmentDirections.goHome()
-
-            val navController = findNavController(R.id.nav_host_fragment_activity_main)
-            navController.navigate(action)
+            super.onBackPressed()
         }
         return true
     }
