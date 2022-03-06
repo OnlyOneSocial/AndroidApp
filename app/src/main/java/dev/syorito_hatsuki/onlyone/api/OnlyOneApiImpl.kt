@@ -13,7 +13,6 @@ data class Auth(
     val captcha: String
 )
 
-
 class OnlyOneApiImpl(private val httpClient: HttpClient) : OnlyOneApi {
     private lateinit var _token: String
 
@@ -64,7 +63,6 @@ class OnlyOneApiImpl(private val httpClient: HttpClient) : OnlyOneApi {
         }
         header("Authorization", "Bearer $_token")
     }
-
 
     override fun setToken(token: String): Boolean {
         _token = token
