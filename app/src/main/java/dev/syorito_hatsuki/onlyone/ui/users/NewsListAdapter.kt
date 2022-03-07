@@ -1,26 +1,14 @@
 package dev.syorito_hatsuki.onlyone.ui.users
 
-import android.content.Context
-import android.graphics.PorterDuff
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import androidx.recyclerview.widget.RecyclerView
 import coil.Coil
-import coil.Coil.enqueue
 import coil.ImageLoader
-import coil.imageLoader
-import coil.load
-import coil.request.CachePolicy
-import coil.request.ImageRequest
-import coil.transform.CircleCropTransformation
 import dev.syorito_hatsuki.onlyone.R
 import dev.syorito_hatsuki.onlyone.api.user.get_users.response.PostsDataItem
-import dev.syorito_hatsuki.onlyone.api.user.get_users.response.User
 import dev.syorito_hatsuki.onlyone.databinding.ItemPostBinding
-import dev.syorito_hatsuki.onlyone.databinding.ItemUserBinding
-import kotlin.coroutines.coroutineContext
 
 class NewsListAdapter(private val userList: List<PostsDataItem>, private val imageLoader: ImageLoader) :
     RecyclerView.Adapter<NewsListAdapter.UserViewHolder>() {
@@ -32,7 +20,6 @@ class NewsListAdapter(private val userList: List<PostsDataItem>, private val ima
         var binding = ItemPostBinding.bind(item)
 
         init {
-
             item.setOnClickListener {
                 listener(adapterPosition)
             }
@@ -47,11 +34,16 @@ class NewsListAdapter(private val userList: List<PostsDataItem>, private val ima
         ){
             Coil.setImageLoader(imgLoader)
 
+            Likes?.let {
+                binding.LikesCount.text = it.size.toString()
+            }
+
+
             binding.apply {
                 PostUsername.text = username
                 MessageTime.text = time
                 MessageText.text = text
-                LikesCount.text = Likes?.size.toString()
+
             }
         }
     }
