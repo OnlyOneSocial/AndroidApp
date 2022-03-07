@@ -12,4 +12,9 @@ class MainViewModel : ViewModel() {
         val users = onlyOneApi.getUsers()
         emit(users)
     }
+
+    fun getFeed() = flow {
+        val posts = dev.syorito_hatsuki.onlyone.ui.fragments.onlyOneApi.getFeed()
+        emit(posts)
+    }
 }

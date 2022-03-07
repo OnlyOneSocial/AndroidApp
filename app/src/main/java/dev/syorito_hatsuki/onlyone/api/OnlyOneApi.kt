@@ -10,6 +10,8 @@ interface OnlyOneApi {
     suspend fun getThisUser(): User
     suspend fun setFBMToken(token: String) : Boolean
     suspend fun getUser(userID: Int): GetUser
+    suspend fun getPosts(userID: Int): List<PostsDataItem>
+    suspend fun getFeed(): List<PostsDataItem>
     fun setToken(token: String): Boolean
     suspend fun auth(login: String, password: String, captcha: String): UserAuth
 }

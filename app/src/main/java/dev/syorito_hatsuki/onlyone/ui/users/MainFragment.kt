@@ -32,8 +32,8 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         lifecycleScope.launchWhenCreated {
-            viewModel.getUsersList().collect {
-                binding.recycler.layoutManager = GridLayoutManager(requireContext(), 3)
+            viewModel.getFeed().collect {
+                //binding.recycler.layoutManager = GridLayoutManager(requireContext(), 3)
                 val imageLoader = context?.let { it1 ->
                     ImageLoader.Builder(it1)
                         .availableMemoryPercentage(0.25)
@@ -41,11 +41,13 @@ class MainFragment : Fragment() {
                         .build()
                 }
                 imageLoader?.let { it1 ->
-                    val adapter = UserListAdapter(it.users, it1)
+                    println(it)
+                    val adapter = NewsListAdapter(it, it1)
                     binding.recycler.adapter = adapter
 
+
                     adapter.onItemClickListener = { position ->
-                        val action = MainFragmentDirections.goToUserPage(it.users[position].id)
+                        val action = MainFragmentDirections.goToUserPage(it[position].id)
                         view.findNavController().navigate(action)
                     }
                 }

@@ -25,4 +25,13 @@ class UserPage : ViewModel() {
         val user = onlyOneApi.getUser(userID)
         emit(user)
     }
+
+    fun getPostUser(userid: Int) = flow {
+        var userID = userid
+        if (userid == 0) {
+            userID = onlyOneApi.getThisUser().id
+        }
+        val posts = onlyOneApi.getPosts(userID)
+        emit(posts)
+    }
 }

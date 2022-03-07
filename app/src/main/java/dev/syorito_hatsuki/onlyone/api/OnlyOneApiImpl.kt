@@ -16,6 +16,19 @@ data class Auth(
 class OnlyOneApiImpl(private val httpClient: HttpClient) : OnlyOneApi {
     private lateinit var _token: String
 
+    override suspend fun getPosts(userID: Int): List<PostsDataItem> = httpClient.get{
+        url {
+            encodedPath = "wall/get/${userID}"
+        }
+        header("Authorization", "Bearer $_token")
+    }
+
+    override suspend fun getFeed(): List<PostsDataItem> = httpClient.get{
+        url {
+            encodedPath = "wall/get?offset=0&limit=20"
+        }
+        header("Authorization", "Bearer $_token")
+    }
     override suspend fun getUser(userID: Int): GetUser = httpClient.get {
         url {
             encodedPath = "user/get/${userID}"

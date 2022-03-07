@@ -56,7 +56,6 @@ class UserListAdapter(private val userList: List<User>, private val imageLoader:
                     .data("https://cdn.only-one.su/public/clients/$id/100-$avatar")
                     .transformations(CircleCropTransformation())
                     .target{
-                        println(it)
                         binding.Image.setImageDrawable(it)
                     }
                     .build()

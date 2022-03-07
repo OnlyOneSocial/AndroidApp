@@ -17,6 +17,7 @@ import coil.transform.CircleCropTransformation
 import dev.syorito_hatsuki.onlyone.R
 import dev.syorito_hatsuki.onlyone.databinding.FragmentBlankBinding
 import dev.syorito_hatsuki.onlyone.ui.MainActivity
+import dev.syorito_hatsuki.onlyone.ui.dialogs.DialogListAdapter
 import kotlinx.coroutines.flow.collect
 
 private const val ARG_PARAM1 = "UserID"
@@ -88,6 +89,8 @@ class BlankFragment : Fragment(), LifecycleObserver {
                     }
                 }
 
+
+
                 binding.Username.text = it.user.username
                 binding.UserStatus.text = it.user.status
 
@@ -98,6 +101,10 @@ class BlankFragment : Fragment(), LifecycleObserver {
                 }
 
                 binding.Bio.text = it.user.bio
+            }
+            viewModel.getPostUser(userid).collect {
+                val adapter = UserProfileWallAdapter(it)
+                binding.UserWall.adapter = adapter
             }
         }
 
