@@ -1,6 +1,7 @@
 package dev.syorito_hatsuki.onlyone.ui.fragments
 
 import android.annotation.SuppressLint
+import android.opengl.Visibility
 import android.os.Bundle
 import android.text.format.DateUtils
 import android.view.LayoutInflater
@@ -15,7 +16,7 @@ import androidx.lifecycle.lifecycleScope
 import coil.load
 import coil.transform.CircleCropTransformation
 import dev.syorito_hatsuki.onlyone.R
-import dev.syorito_hatsuki.onlyone.databinding.FragmentBlankBinding
+import dev.syorito_hatsuki.onlyone.databinding.FragmentUserpageBinding
 import dev.syorito_hatsuki.onlyone.ui.MainActivity
 import dev.syorito_hatsuki.onlyone.ui.dialogs.DialogListAdapter
 import kotlinx.coroutines.flow.collect
@@ -25,7 +26,7 @@ private const val ARG_PARAM1 = "UserID"
 class BlankFragment : Fragment(), LifecycleObserver {
     private var param1: Int? = null
     private val viewModel: UserPage by viewModels()
-    private var _binding: FragmentBlankBinding? = null
+    private var _binding: FragmentUserpageBinding? = null
 
     private val binding get() = _binding!!
 
@@ -45,7 +46,7 @@ class BlankFragment : Fragment(), LifecycleObserver {
         val slideshowViewModel =
             ViewModelProvider(this).get(UserPage::class.java)
 
-        _binding = FragmentBlankBinding.inflate(inflater, container, false)
+        _binding = FragmentUserpageBinding.inflate(inflater, container, false)
 
         val textView: TextView = binding.Username
         slideshowViewModel.text.observe(viewLifecycleOwner) {
@@ -103,6 +104,9 @@ class BlankFragment : Fragment(), LifecycleObserver {
                 binding.Bio.text = it.user.bio
             }
             viewModel.getPostUser(userid).collect {
+                if (userid == 0){
+                    binding.EnterMessage.visibility = 1
+                }
                 val adapter = UserProfileWallAdapter(it)
                 binding.UserWall.adapter = adapter
             }

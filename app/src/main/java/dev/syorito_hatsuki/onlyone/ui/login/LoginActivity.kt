@@ -117,7 +117,6 @@ class LoginActivity : AppCompatActivity() {
                 .addOnSuccessListener(this, OnSuccessListener { response ->
                     // Indicates communication with reCAPTCHA service was
                     // successful.
-                    val userResponseToken = response.tokenResult
                     if (response.tokenResult?.isNotEmpty() == true) {
                         // Validate the user response token using the
                         // reCAPTCHA siteverify API.

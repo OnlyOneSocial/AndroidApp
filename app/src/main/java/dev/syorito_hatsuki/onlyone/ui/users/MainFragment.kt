@@ -46,7 +46,7 @@ class MainFragment : Fragment() {
 
 
                     adapter.onItemClickListener = { position ->
-                        val action = MainFragmentDirections.goToUserPage(it[position].id)
+                        val action = MainFragmentDirections.goToUserPage(it[position].author)
                         view.findNavController().navigate(action)
                     }
                 }
