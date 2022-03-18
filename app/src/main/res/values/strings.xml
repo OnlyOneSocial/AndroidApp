@@ -1,33 +1,3 @@
 <resources>
     <string name="app_name">Only One</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
-    <string name="image_user">Image user</string>
-    <string name="test">Test</string>
-    <string name="logout">Logout</string>
-    <string name="test2">test</string>
-    <string name="todo">TODO</string>
-    <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome!"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
-    <string name="title_activity_login">LoginActivity</string>
-    <string name="textview">TextView</string>
-    <string name="user_page">User page</string>
-    <string name="online">Online</string>
-    <string name="userstatus">UserStatus</string>
-    <string name="time">time</string>
-    <string name="message">Message</string>
-    <string name="EnterMessage">Напишите что нибудь ...</string>
-    <string name="username">Username</string>
-    <string name="_0">0</string>
 </resources>
